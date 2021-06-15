@@ -1,13 +1,13 @@
-package ru.pnzgu.iqorganizer.ui.home
+package ru.pnzgu.iqorganizer.ui.group
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class GroupViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+        value = "Группа"
     }
     val text: LiveData<String> = _text
 }
