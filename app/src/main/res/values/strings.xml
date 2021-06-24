@@ -16,5 +16,6 @@
     <string name="menu_gallery">Статистика</string>
     <string name="menu_slideshow">Рабочая группа</string>
     <string name="notification_switch_title">Уведомления</string>
+    <string name="save_title">Сохранить</string>
 
 </resources>

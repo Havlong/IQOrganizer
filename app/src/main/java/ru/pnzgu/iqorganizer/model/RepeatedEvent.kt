@@ -1,13 +1,20 @@
 package ru.pnzgu.iqorganizer.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
-import kotlin.random.Random
 
+@Entity(tableName = "repeated_event")
 data class RepeatedEvent(
-    val id: Int = Random.nextInt(),
-    val eventId: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
+
+    val eventInfoId: Int,
+
     val time: Date,
+
     val daysBetween: Int,
+
     val start: Date?,
+
     val end: Date?
 )

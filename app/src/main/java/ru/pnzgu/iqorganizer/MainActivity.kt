@@ -2,8 +2,6 @@ package ru.pnzgu.iqorganizer
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -15,11 +13,14 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
+import ru.pnzgu.iqorganizer.model.SimpleEvent
+import ru.pnzgu.iqorganizer.ui.calendar.recycler.FullEvent
+import ru.pnzgu.iqorganizer.ui.dialogs.CreateEventDialog
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private val db = (application as IQOrganizerApplication).database
 
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
@@ -36,20 +37,26 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        createEventButton.setOnClickListener { view ->
-            Snackbar.make(view, "This is action", Snackbar.LENGTH_LONG)
-                .setAction("Action") { snackBarAction: View ->
-                    Toast.makeText(
-                        snackBarAction.context,
-                        R.string.app_name,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }.show()
+        createEventButton.setOnClickListener {
+            val dialog = CreateEventDialog.newInstance()
+            supportFragmentManager.setFragmentResultListener(
+                "create_event_result",
+                this
+            ) { key, bundle ->
+                if (key == "create_event_result") {
+                    val createdEvent: FullEvent = bundle.getParcelable("event")!!
+                    val (masterEvent, simpleData) = createdEvent.toModels()
+                    db.eventInfoDao().insert(masterEvent)
+                    val simpleEvent = SimpleEvent(simpleData.id, masterEvent.id, simpleData.time)
+                    db.simpleEventDao().insert(simpleEvent)
+                }
+            }
+            dialog.show(supportFragmentManager, CreateEventDialog.TAG)
         }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_calendar, R.id.nav_stats, R.id.nav_group
@@ -60,7 +67,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }

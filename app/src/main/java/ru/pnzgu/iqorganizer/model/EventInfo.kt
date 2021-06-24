@@ -1,10 +1,15 @@
 package ru.pnzgu.iqorganizer.model
 
-import kotlin.random.Random
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "event_info")
 data class EventInfo(
-    val id: Int = Random.nextInt(),
+    @PrimaryKey(autoGenerate = true) val id: Int,
+
     val name: String?,
+
     val info: String?,
-    val finances: Long
+
+    val finances: Double
 )

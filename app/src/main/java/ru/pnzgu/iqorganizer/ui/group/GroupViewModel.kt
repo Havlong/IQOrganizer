@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class GroupViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "Группа"
+        value = "Групповые мероприятия находятся в разработке"
     }
     val text: LiveData<String> = _text
 }

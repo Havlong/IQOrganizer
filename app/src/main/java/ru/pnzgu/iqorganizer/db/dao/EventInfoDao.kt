@@ -1,9 +1,9 @@
 package ru.pnzgu.iqorganizer.db.dao
 
 import androidx.room.*
-import ru.pnzgu.iqorganizer.db.entity.EventInfo
 import ru.pnzgu.iqorganizer.db.relations.EventInfoAndRepeatedEvents
 import ru.pnzgu.iqorganizer.db.relations.EventInfoAndSimpleEvent
+import ru.pnzgu.iqorganizer.model.EventInfo
 
 @Dao
 interface EventInfoDao {

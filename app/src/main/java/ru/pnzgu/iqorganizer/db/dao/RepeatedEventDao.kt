@@ -1,7 +1,7 @@
 package ru.pnzgu.iqorganizer.db.dao
 
 import androidx.room.*
-import ru.pnzgu.iqorganizer.db.entity.RepeatedEvent
+import ru.pnzgu.iqorganizer.model.RepeatedEvent
 
 @Dao
 interface RepeatedEventDao {
